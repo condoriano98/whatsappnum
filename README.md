@@ -1,5 +1,7 @@
 # hey Cia 💚
 
+**Live:** https://whatsappnum.vercel.app
+
 A tiny, playful one-page webapp — WhatsApp themed — that asks **"hey Cia, do you want to move to whatsapp?"** and collects a WhatsApp number.
 
 Inspired by those cute "date quiz" prompt pages: a WhatsApp logo, a big question, a **No** button that runs away, and a **Yes** button that grows until it's the only choice. Say yes and it asks for a WhatsApp number, then celebrates with confetti and an *Open WhatsApp* button.
@@ -72,4 +74,7 @@ The save runs in the background *after* the success screen appears, so a slow or
 
 ## Deploy
 
-Drop the folder on any static host — GitHub Pages, Netlify, Vercel, Cloudflare Pages. No configuration needed.
+Deployed on Vercel as a static site (no framework, no build step) at
+**https://whatsappnum.vercel.app**.
+
+The folder works on any static host — GitHub Pages, Netlify, Cloudflare Pages — with no configuration.
