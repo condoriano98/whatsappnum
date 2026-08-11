@@ -24,19 +24,42 @@ Or just open `index.html` in a browser.
 
 ## Customize
 
-Edit the config at the top of `script.js`:
+Everything configurable lives in `config.js`:
 
 ```js
-const SEND_TO = "";   // your WhatsApp number, digits only w/ country code, no "+"
-                      // e.g. "6281234567890" — the final button opens a chat with you.
-                      // leave "" to open WhatsApp with a pre-filled message instead.
-const NAME = "Cia";   // the name shown in the question
+window.APP_CONFIG = {
+  NAME: "Cia",            // the name shown in the question
+  WHATSAPP_URL: "...",    // where the "Open WhatsApp" button goes
+  SUPABASE_URL: "...",    // project API URL
+  SUPABASE_KEY: "...",    // publishable (anon) key — safe in the browser
+  SUPABASE_TABLE: "submissions",
+};
 ```
 
-- **`SEND_TO`** — set this to the number you want her to message. When set, the *Open WhatsApp* button starts a chat with you, pre-filled with a little hello.
-- **`NAME`** — change the name in the headline and messages.
-- **Countries** — the `COUNTRIES` list controls the dial-code dropdown; reorder it to change the default (the first entry is selected by default).
+- **Countries** — the `COUNTRIES` list in `script.js` controls the dial-code dropdown; reorder it to change the default (the first entry is selected).
 - **Wording** — the headline lives in `index.html`; the flirty "No" lines live in the `teases` array in `script.js`.
+
+## Database
+
+Submitted numbers are saved to Supabase (`public.submissions`) via the REST API — no SDK, no build step.
+
+| column | notes |
+|--------|-------|
+| `id` | uuid, auto |
+| `created_at` | timestamptz, auto |
+| `name`, `answer` | who was asked, and their answer |
+| `country_code`, `number`, `full_number` | the submitted number |
+| `user_agent`, `referrer` | light context |
+
+**Privacy / security.** Row Level Security is enabled with a single `INSERT` policy for `anon`. There is no `SELECT` policy, so the publishable key in `config.js` can *write* a number but can never *read* the collected numbers back — even though the key is public. Reading is only possible from the Supabase dashboard or with the service-role key (which is **not** in this repo). Length `CHECK` constraints on every text column cap what can be written.
+
+View submissions in the Supabase dashboard → Table Editor → `submissions`, or:
+
+```sql
+select created_at, full_number from submissions order by created_at desc;
+```
+
+The save runs in the background *after* the success screen appears, so a slow or failed network never blocks the celebration.
 
 ## Files
 
@@ -44,7 +67,8 @@ const NAME = "Cia";   // the name shown in the question
 |------|-----------|
 | `index.html` | markup + inline WhatsApp logo SVG |
 | `styles.css` | WhatsApp-inspired styling & animations |
-| `script.js`  | dodging button, validation, confetti, config |
+| `script.js`  | dodging button, validation, confetti, Supabase save |
+| `config.js`  | all settings: name, WhatsApp link, Supabase creds |
 
 ## Deploy
 

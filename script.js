@@ -1,13 +1,11 @@
 /* ============================================================
    hey Cia — a tiny WhatsApp "will you?" page
    ------------------------------------------------------------
-   CONFIG: set SEND_TO to your own WhatsApp number (digits only,
-   with country code, no +) so the final "Open WhatsApp" button
-   starts a chat with YOU. Leave it "" to just open WhatsApp
-   with a pre-filled message she can send.
+   All settings live in config.js — edit that, not this file.
    ============================================================ */
-const SEND_TO = ""; // e.g. "6281234567890"
-const NAME = "Cia";
+const CFG = window.APP_CONFIG || {};
+const NAME = CFG.NAME || "Cia";
+const WHATSAPP_URL = CFG.WHATSAPP_URL || "https://wa.me/";
 
 /* A small, friendly set of country dial codes */
 const COUNTRIES = [
@@ -111,9 +109,41 @@ yesBtn.addEventListener("click", () => {
 });
 
 /* ============================================================
-   STEP 2 — collect + validate the number
+   STEP 2 — collect + validate the number, then save it
    ============================================================ */
-form.addEventListener("submit", (e) => {
+
+/* Save to Supabase via the REST API (no SDK needed).
+   The table is insert-only for this key, so nothing can be read back. */
+async function saveSubmission(row) {
+  const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_TABLE } = CFG;
+  if (!SUPABASE_URL || !SUPABASE_KEY) return { ok: false, skipped: true };
+
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE || "submissions"}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify(row),
+      }
+    );
+    if (!res.ok) {
+      console.warn("save failed:", res.status, await res.text());
+      return { ok: false };
+    }
+    return { ok: true };
+  } catch (err) {
+    console.warn("save error:", err);
+    return { ok: false };
+  }
+}
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const dial = countrySel.value;
   const raw = numberField.value.replace(/[^\d]/g, "").replace(/^0+/, "");
@@ -126,16 +156,23 @@ form.addEventListener("submit", (e) => {
   errorEl.hidden = true;
 
   const full = `${dial}${raw}`;
-  const pretty = `+${dial} ${raw}`;
-  doneNumber.textContent = pretty;
+  doneNumber.textContent = `+${dial} ${raw}`;
+  waLink.href = WHATSAPP_URL;
 
-  const msg = encodeURIComponent(`hey! it's ${NAME} — I moved to WhatsApp 💚`);
-  waLink.href = SEND_TO
-    ? `https://wa.me/${SEND_TO}?text=${msg}`
-    : `https://wa.me/${full}?text=${encodeURIComponent("hey Cia 💚")}`;
-
+  // Show the happy screen right away — saving happens in the background
+  // so a slow network never blocks her.
   showStep(stepDone);
   celebrate();
+
+  saveSubmission({
+    name: NAME,
+    answer: "yes",
+    country_code: dial,
+    number: raw,
+    full_number: full,
+    user_agent: navigator.userAgent.slice(0, 400),
+    referrer: document.referrer.slice(0, 300) || null,
+  });
 });
 
 /* live-clean input & clear error while typing */

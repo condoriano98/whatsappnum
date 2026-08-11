@@ -234,13 +234,15 @@ a.btn { display: inline-block; text-decoration: none; text-align: center; }
   animation: pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
 }
 .tick svg { width: 100%; height: 100%; }
+/* Default to fully drawn, animate *from* hidden — so if the animation
+   never runs (reduced motion, odd browser), the tick is still visible. */
 .tick-path {
   stroke-dasharray: 80;
-  stroke-dashoffset: 80;
-  animation: draw 0.5s ease forwards 0.25s;
+  stroke-dashoffset: 0;
+  animation: draw 0.55s ease 0.15s both;
 }
 @keyframes pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes draw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
 
 #doneNumber { color: var(--wa-teal); }
 
