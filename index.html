@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#075E54" />
+  <title>hey Cia 💚</title>
+  <meta name="description" content="a little question, just for you." />
+  <meta property="og:title" content="hey Cia, do you want to move to whatsapp?" />
+  <meta property="og:description" content="tap in and find out 💚" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%2325D366' d='M16 3C9 3 3.5 8.5 3.5 15.5c0 2.3.6 4.4 1.7 6.3L4 29l7.4-1.9c1.8 1 3.9 1.5 6.1 1.5h.5c7 0 12.5-5.5 12.5-12.5S23 3 16 3z'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <main class="card" id="card">
+    <!-- STEP 1: The question -->
+    <section class="step step--ask is-active" id="step-ask" aria-live="polite">
+      <div class="logo" id="logo" aria-hidden="true">
+        <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="45" cy="45" r="45" fill="#25D366" />
+          <path fill="#fff" d="M45 19c-14.3 0-25.9 11.6-25.9 25.9 0 4.6 1.2 9 3.5 12.9L19 71l13.6-3.6c3.7 2 7.9 3.1 12.3 3.1h.1c14.3 0 25.9-11.6 25.9-25.9S59.3 19 45 19zm0 47.4h-.1c-3.9 0-7.7-1-11-3l-.8-.5-8.1 2.1 2.2-7.9-.5-.8a21.4 21.4 0 01-3.3-11.5c0-11.9 9.7-21.5 21.6-21.5 5.8 0 11.2 2.2 15.3 6.3 4.1 4.1 6.3 9.5 6.3 15.3-.1 11.9-9.7 21.5-21.6 21.5z"/>
+          <path fill="#fff" d="M57 51.1c-.6-.3-3.7-1.8-4.3-2-.6-.2-1-.3-1.4.3-.4.6-1.6 2-2 2.4-.4.4-.7.5-1.3.2-.6-.3-2.6-1-5-3.1-1.9-1.6-3.1-3.7-3.5-4.3-.4-.6 0-.9.3-1.2.3-.3.6-.7.9-1.1.3-.4.4-.6.6-1 .2-.4.1-.8 0-1.1-.1-.3-1.4-3.4-1.9-4.6-.5-1.2-1-1-1.4-1.1h-1.2c-.4 0-1.1.2-1.6.8-.6.6-2.1 2.1-2.1 5.1s2.2 5.9 2.5 6.3c.3.4 4.3 6.6 10.5 9.3 1.5.6 2.6 1 3.5 1.3 1.5.5 2.8.4 3.9.2 1.2-.2 3.7-1.5 4.2-2.9.5-1.4.5-2.7.4-2.9-.2-.3-.6-.4-1.2-.7z"/>
+        </svg>
+      </div>
+
+      <h1 class="headline">hey Cia,<br />do you want to move to whatsapp?</h1>
+      <p class="subhead" id="teaser">no pressure... okay, a little pressure 💚</p>
+
+      <div class="buttons" id="buttons">
+        <button class="btn btn--yes" id="yesBtn" type="button">Yes 💚</button>
+        <button class="btn btn--no" id="noBtn" type="button">No</button>
+      </div>
+    </section>
+
+    <!-- STEP 2: The number -->
+    <section class="step step--number" id="step-number" hidden>
+      <div class="logo logo--sm" aria-hidden="true">
+        <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="45" cy="45" r="45" fill="#25D366" />
+          <path fill="#fff" d="M45 19c-14.3 0-25.9 11.6-25.9 25.9 0 4.6 1.2 9 3.5 12.9L19 71l13.6-3.6c3.7 2 7.9 3.1 12.3 3.1h.1c14.3 0 25.9-11.6 25.9-25.9S59.3 19 45 19zm0 47.4h-.1c-3.9 0-7.7-1-11-3l-.8-.5-8.1 2.1 2.2-7.9-.5-.8a21.4 21.4 0 01-3.3-11.5c0-11.9 9.7-21.5 21.6-21.5 5.8 0 11.2 2.2 15.3 6.3 4.1 4.1 6.3 9.5 6.3 15.3-.1 11.9-9.7 21.5-21.6 21.5z"/>
+          <path fill="#fff" d="M57 51.1c-.6-.3-3.7-1.8-4.3-2-.6-.2-1-.3-1.4.3-.4.6-1.6 2-2 2.4-.4.4-.7.5-1.3.2-.6-.3-2.6-1-5-3.1-1.9-1.6-3.1-3.7-3.5-4.3-.4-.6 0-.9.3-1.2.3-.3.6-.7.9-1.1.3-.4.4-.6.6-1 .2-.4.1-.8 0-1.1-.1-.3-1.4-3.4-1.9-4.6-.5-1.2-1-1-1.4-1.1h-1.2c-.4 0-1.1.2-1.6.8-.6.6-2.1 2.1-2.1 5.1s2.2 5.9 2.5 6.3c.3.4 4.3 6.6 10.5 9.3 1.5.6 2.6 1 3.5 1.3 1.5.5 2.8.4 3.9.2 1.2-.2 3.7-1.5 4.2-2.9.5-1.4.5-2.7.4-2.9-.2-.3-.6-.4-1.2-.7z"/>
+        </svg>
+      </div>
+
+      <h2 class="headline headline--sm">yay! 🎉<br />drop your whatsapp number</h2>
+      <p class="subhead">so I can slide into the right chat 😌</p>
+
+      <form class="phone-form" id="phoneForm" novalidate>
+        <div class="phone-input">
+          <select id="country" class="country" aria-label="Country code">
+            <!-- populated by JS -->
+          </select>
+          <input
+            id="number"
+            class="number-field"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="tel-national"
+            placeholder="812 3456 7890"
+            aria-label="WhatsApp number"
+            required
+          />
+        </div>
+        <p class="error" id="error" role="alert" hidden>hmm, that doesn't look like a number 🤔</p>
+        <button class="btn btn--yes btn--full" type="submit">Send it 💬</button>
+      </form>
+    </section>
+
+    <!-- STEP 3: Success -->
+    <section class="step step--done" id="step-done" hidden>
+      <div class="tick" aria-hidden="true">
+        <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="45" cy="45" r="45" fill="#25D366" />
+          <path fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M27 46l12 12 24-26" class="tick-path"/>
+        </svg>
+      </div>
+      <h2 class="headline headline--sm">see you on whatsapp 💚</h2>
+      <p class="subhead" id="doneText">saved <strong id="doneNumber"></strong> — don't leave me on read 😅</p>
+      <a class="btn btn--yes btn--full" id="waLink" href="#" target="_blank" rel="noopener">Open WhatsApp 💬</a>
+      <button class="btn btn--ghost" id="restart" type="button">start over</button>
+    </section>
+  </main>
+
+  <footer class="footer">made with 💚</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

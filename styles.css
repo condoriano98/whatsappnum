@@ -1,0 +1,260 @@
+:root {
+  --wa-green: #25d366;
+  --wa-green-dark: #1da851;
+  --wa-teal: #075e54;
+  --wa-teal-2: #128c7e;
+  --wa-bubble: #dcf8c6;
+  --bg: #e9e2db;
+  --ink: #0b1f1a;
+  --muted: #5b6b66;
+  --card: #ffffff;
+  --shadow: 0 24px 60px rgba(7, 94, 84, 0.22);
+  --radius: 26px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 700px at 15% -10%, rgba(37, 211, 102, 0.28), transparent 55%),
+    radial-gradient(1000px 600px at 110% 120%, rgba(18, 140, 126, 0.30), transparent 55%),
+    linear-gradient(160deg, #d9efe0 0%, #e9e2db 55%, #d5ece6 100%);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* subtle whatsapp-doodle texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23128c7e' stroke-width='2' stroke-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='10'/%3E%3Cpath d='M75 20l8 8-8 8-8-8z'/%3E%3Cpath d='M20 85c6-8 18-8 24 0'/%3E%3Ccircle cx='92' cy='82' r='6'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#confetti {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.card {
+  position: relative;
+  z-index: 2;
+  width: min(440px, 100%);
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px 30px 34px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--wa-teal), var(--wa-green), var(--wa-teal-2));
+}
+
+.step {
+  display: none;
+  animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.step.is-active { display: block; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo {
+  width: 96px;
+  height: 96px;
+  margin: 4px auto 20px;
+  filter: drop-shadow(0 10px 18px rgba(37, 211, 102, 0.4));
+  animation: float 3.4s ease-in-out infinite;
+}
+.logo--sm { width: 74px; height: 74px; margin-bottom: 14px; }
+.logo svg { width: 100%; height: 100%; display: block; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-9px) rotate(2deg); }
+}
+
+.headline {
+  font-size: clamp(1.5rem, 5.5vw, 2rem);
+  line-height: 1.18;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+  color: var(--wa-teal);
+  font-weight: 800;
+}
+.headline--sm { font-size: clamp(1.35rem, 5vw, 1.7rem); }
+
+.subhead {
+  margin: 0 0 26px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  min-height: 58px;
+  position: relative;
+}
+
+.btn {
+  font: inherit;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 15px 30px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn--yes {
+  background: linear-gradient(135deg, var(--wa-green), var(--wa-green-dark));
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(37, 211, 102, 0.4);
+}
+.btn--yes:hover { transform: translateY(-2px) scale(1.03); }
+.btn--yes:active { transform: translateY(0) scale(0.98); }
+
+.btn--no {
+  background: #eef2f0;
+  color: var(--muted);
+  position: relative;
+  z-index: 3;
+}
+.btn--no:hover { background: #e4e9e6; }
+
+.btn--full { width: 100%; margin-top: 4px; }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--muted);
+  box-shadow: none;
+  padding: 10px;
+  margin-top: 12px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.btn--ghost:hover { color: var(--wa-teal); }
+
+a.btn { display: inline-block; text-decoration: none; text-align: center; }
+
+/* dodging no-button state */
+.btn--no.dodging {
+  position: fixed;
+  z-index: 6;
+  transition: left 0.18s ease, top 0.18s ease;
+}
+
+/* ---- phone form ---- */
+.phone-form { margin-top: 6px; }
+
+.phone-input {
+  display: flex;
+  gap: 10px;
+  background: #f4f7f5;
+  border: 2px solid #e2ebe6;
+  border-radius: 16px;
+  padding: 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.phone-input:focus-within {
+  border-color: var(--wa-green);
+  box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.16);
+}
+
+.country {
+  font: inherit;
+  border: none;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 8px;
+  color: var(--ink);
+  max-width: 118px;
+  cursor: pointer;
+}
+.country:focus { outline: none; }
+
+.number-field {
+  font: inherit;
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 12px 10px;
+  color: var(--ink);
+  letter-spacing: 0.5px;
+}
+.number-field:focus { outline: none; }
+.number-field::placeholder { color: #9fb0aa; }
+
+.error {
+  color: #d64550;
+  font-size: 0.88rem;
+  margin: 10px 2px 0;
+  text-align: left;
+}
+
+/* ---- success tick ---- */
+.tick {
+  width: 96px;
+  height: 96px;
+  margin: 4px auto 18px;
+  animation: pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+.tick svg { width: 100%; height: 100%; }
+.tick-path {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: draw 0.5s ease forwards 0.25s;
+}
+@keyframes pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+#doneNumber { color: var(--wa-teal); }
+
+.footer {
+  position: relative;
+  z-index: 2;
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 420px) {
+  .card { padding: 34px 22px 28px; }
+  .buttons { flex-direction: row; }
+  .btn { padding: 14px 24px; }
+}
